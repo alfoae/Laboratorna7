@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 class Program
 {
@@ -9,7 +10,8 @@ class Program
 
         for (int i = 1; i <= 5; i++)
         {
-            actions.Add(() => Console.WriteLine(i));
+            int j = i;
+            actions.Add(() => Console.WriteLine(j));
         }
 
         foreach (var action in actions)
