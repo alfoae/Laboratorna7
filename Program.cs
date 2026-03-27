@@ -1,36 +1,17 @@
-﻿class BankTerminal
-{
-    public Action<int> OnMoneyWithdraw;
-
-    public void Withdraw(int amount)
-    {
-        Console.WriteLine($"Зняття {amount} грн");
-
-        OnMoneyWithdraw?.Invoke(amount);
-    }
-}
+﻿using System;
 
 class Program
 {
     static void Main()
     {
-        BankTerminal terminal = new BankTerminal();
+        Func<double, double> discountCalculator = null;
 
-        terminal.OnMoneyWithdraw += Log;
+        discountCalculator += price => price * 0.95; // -5%
+        discountCalculator += price => price * 0.90; // -10%
+        discountCalculator += price => price - 100;  // -100 грн
 
-        terminal.Withdraw(100);
+        double result = discountCalculator(1000);
 
-        //"ЗЛОМ" 1 — видаляє всіх підписників
-        //terminal.OnMoneyWithdraw = null;
-
-        terminal.Withdraw(200);
-
-        //ЗЛОМ 2 — виклик вручну без операції
-        terminal.OnMoneyWithdraw?.Invoke(9999);
-    }
-
-    static void Log(int amount)
-    {
-        Console.WriteLine($"[LOG] Знято: {amount}");
+        Console.WriteLine(result);
     }
 }
