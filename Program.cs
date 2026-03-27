@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 class Program
 {
@@ -6,11 +7,16 @@ class Program
     {
         Func<double, double> discountCalculator = null;
 
-        discountCalculator += price => price * 0.95; // -5%
-        discountCalculator += price => price * 0.90; // -10%
-        discountCalculator += price => price - 100;  // -100 грн
+        discountCalculator += price => price * 0.95;
+        discountCalculator += price => price * 0.90;
+        discountCalculator += price => price - 100;
 
         double result = discountCalculator(1000);
+
+        foreach (Func<double, double> func in discountCalculator.GetInvocationList())
+        {
+            result = func(result);
+        }
 
         Console.WriteLine(result);
     }
