@@ -1,15 +1,11 @@
-﻿using System;
-
-class BankTerminal
+﻿class BankTerminal
 {
-    // ПУБЛІЧНИЙ делегат (погано)
     public Action<int> OnMoneyWithdraw;
 
     public void Withdraw(int amount)
     {
         Console.WriteLine($"Зняття {amount} грн");
 
-        // Виклик делегата
         OnMoneyWithdraw?.Invoke(amount);
     }
 }
@@ -20,19 +16,16 @@ class Program
     {
         BankTerminal terminal = new BankTerminal();
 
-        // Підписка
         terminal.OnMoneyWithdraw += Log;
 
-        // Нормальна робота
         terminal.Withdraw(100);
 
-        // ❌ "ЗЛОМ" 1 — видаляємо всіх підписників
+        //"ЗЛОМ" 1 — видаляє всіх підписників
         //terminal.OnMoneyWithdraw = null;
 
-        // тепер нічого не викличеться
         terminal.Withdraw(200);
 
-        // ❌ "ЗЛОМ" 2 — викликаємо вручну БЕЗ операції
+        //ЗЛОМ 2 — виклик вручну без операції
         terminal.OnMoneyWithdraw?.Invoke(9999);
     }
 
